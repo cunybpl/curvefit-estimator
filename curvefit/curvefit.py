@@ -64,7 +64,8 @@ class CurvefitEstimator(BaseEstimator, RegressorMixin):
         X: np.array, 
         y: np.array=None, 
         sigma: Optional[np.array]=None, 
-        absolute_sigma: bool=True) -> 'CurvefitEstimator':
+        absolute_sigma: bool=True, 
+        squeeze_X: bool=False) -> 'CurvefitEstimator':
         """ Fit X features to target y. 
 
         Refer to scipy.optimize.curve_fit docs for details on sigma values.
@@ -74,11 +75,17 @@ class CurvefitEstimator(BaseEstimator, RegressorMixin):
             y (np.array): The target array.
             sigma (Optional[np.array], optional): Determines uncertainty in the ydata. Defaults to None.
             absolute_sigma (bool, optional): Uses sigma in an absolute sense and reflects this in the pcov. Defaults to True.
+            squeeze_X: (bool, optional): Squeeze X into a 1 dimensional array for curve fitting. This is useful if you are fitting 
+                a function with an X array and do not want to squeeze before it enters curve_fit.
+                
 
         Returns:
-            GeneralizedCurveFitEstimator: [description]
+            GeneralizedCurveFitEstimator: self
         """
         X, y = check_X_y(X, y)
+
+        if squeeze_X:
+            X = X.squeeze()
 
         popt, pcov = optimize.curve_fit(f=self.model_func, 
             xdata=X, 
