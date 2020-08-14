@@ -1,8 +1,4 @@
-from ._template import TemplateEstimator
-from ._template import TemplateClassifier
-from ._template import TemplateTransformer
-
+from .curvefit import CurveFitEstimator
 from ._version import __version__
 
-__all__ = ['TemplateEstimator', 'TemplateClassifier', 'TemplateTransformer',
-           '__version__']
+__all__ = ['CurvefitEstimator', '__version__']

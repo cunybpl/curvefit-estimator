@@ -12,7 +12,7 @@ with open(ver_file) as f:
     exec(f.read())
 
 DISTNAME = 'curvefit'
-DESCRIPTION = 'An sckit-learn wrapper around scipy.optimize.curve_fit'
+DESCRIPTION = 'A sckit-learn wrapper around scipy.optimize.curve_fit'
 with codecs.open('README.rst', encoding='utf-8-sig') as f:
     LONG_DESCRIPTION = f.read()
 
@@ -37,11 +37,10 @@ CLASSIFIERS = ['Intended Audience :: Science/Research',
                'Operating System :: POSIX',
                'Operating System :: Unix',
                'Operating System :: MacOS',
-               'Programming Language :: Python :: 2.7',
-               'Programming Language :: Python :: 3.5',
                'Programming Language :: Python :: 3.6',
                'Programming Language :: Python :: 3.7', 
                'Programming Language :: Python :: 3.8']
+
 EXTRAS_REQUIRE = {
     'tests': [
         'pytest',
