@@ -13,19 +13,22 @@ with open(ver_file) as f:
 
 DISTNAME = 'curvefit'
 DESCRIPTION = 'A sckit-learn wrapper around scipy.optimize.curve_fit'
-with codecs.open('README.rst', encoding='utf-8-sig') as f:
+with codecs.open('README.md', encoding='utf-8') as f:
     LONG_DESCRIPTION = f.read()
 
 MAINTAINER = 'bsnacks000'
 
-MAINTAINER_EMAIL = 'bsnacks000@gmail.com'
+MAINTAINER_EMAIL = ''
 URL = 'https://github.com/bsnacks000/curvefit-estimator.git'
 
 LICENSE = 'new BSD'
 DOWNLOAD_URL = 'https://github.com/bsnacks000/curvefit-estimator.git'
 
 VERSION = __version__
-INSTALL_REQUIRES = ['numpy', 'scipy', 'scikit-learn']
+INSTALL_REQUIRES = [
+    'numpy', 
+    'scipy', 
+    'scikit-learn']
 
 CLASSIFIERS = ['Intended Audience :: Science/Research',
                'Intended Audience :: Developers',

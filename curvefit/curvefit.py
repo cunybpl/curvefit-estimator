@@ -1,15 +1,16 @@
-from typing import Callable, Tuple, Any, List, Optional
+from typing import Callable, Tuple, Any, List, Optional, Union
 
 import numpy as np
 
 from scipy import optimize
-from sklearn.base import BaseEstimator
+from sklearn.base import BaseEstimator, RegressorMixin
 from sklearn.utils.validation import check_X_y, check_array, check_is_fitted
 
 class CurvefitEstimator(BaseEstimator, RegressorMixin):
 
     def __init__(self, 
-        model_func: Callable[[], np.array]=None, 
+        model_func: Callable[[], np.array]=None,
+        p0: Optional[List[float]]=None, 
         bounds: Union[ Tuple[np.dtype, np.dtype], 
             List[Tuple[np.dtype, np.dtype]], 
             Callable[ [], List[Tuple[np.dtype, np.dtype]]] ]=(-np.inf, np.inf), 
@@ -50,7 +51,8 @@ class CurvefitEstimator(BaseEstimator, RegressorMixin):
         if model_func is None:
             raise TypeError('Must provide a function to model.')
 
-        self.model_func = model_func 
+        self.model_func = model_func
+        self.p0 = p0 
         self.bounds = bounds 
         self.loss = loss 
         self.method = method
@@ -60,16 +62,18 @@ class CurvefitEstimator(BaseEstimator, RegressorMixin):
 
     def fit(self, 
         X: np.array, 
-        y: np.array, 
+        y: np.array=None, 
         sigma: Optional[np.array]=None, 
-        absolute_sigma: bool=True) -> GeneralizedCurveFitEstimator:
+        absolute_sigma: bool=True) -> 'CurvefitEstimator':
         """ Fit X features to target y. 
 
+        Refer to scipy.optimize.curve_fit docs for details on sigma values.
+
         Args:
-            X (np.array): [description]
-            y (np.array): [description]
-            sigma (Optional[np.array], optional): [description]. Defaults to None.
-            absolute_sigma (bool, optional): [description]. Defaults to True.
+            X (np.array): The feature matrix we are using to fit.
+            y (np.array): The target array.
+            sigma (Optional[np.array], optional): Determines uncertainty in the ydata. Defaults to None.
+            absolute_sigma (bool, optional): Uses sigma in an absolute sense and reflects this in the pcov. Defaults to True.
 
         Returns:
             GeneralizedCurveFitEstimator: [description]
@@ -79,18 +83,18 @@ class CurvefitEstimator(BaseEstimator, RegressorMixin):
         popt, pcov = optimize.curve_fit(f=self.model_func, 
             xdata=X, 
             ydata=y, 
-            p0=self.beta_guess, 
+            p0=self.p0, 
             method=self.method,
             sigma=sigma,
             absolute_sigma=absolute_sigma,
             loss=self.loss,
-            bounds=bounds,
-            beta_guess=self.beta_guess, 
+            bounds=self.bounds,
             jac=self.jac,
             **self.lsq_kwargs
             )
         self.popt_ = popt # set optimized parameters on the instance
         self.pcov_ = pcov # set optimzed covariances on the instance
+        self.name_ = self.model_func.__name__ # name of func in case we are trying to fit multiple funcs in a Pipeline
         return self 
 
 
@@ -104,5 +108,7 @@ class CurvefitEstimator(BaseEstimator, RegressorMixin):
         Returns:
             np.array: The predicted y values
         """
+        check_is_fitted(self, ["popt_", "pcov_", "name_"])
         X = check_array(X, ensure_2d=False)
+
         return self.model_func(X, *self.popt_) 
