@@ -35,8 +35,14 @@ class CurvefitEstimator(BaseEstimator, RegressorMixin):
 
         Args:
             model_func (Callable[[], np.array], optional): The function to model. Defaults to None.
-            bounds (Union[ Tuple[np.dtype, np.dtype], List[Tuple[np.dtype, np.dtype]] ], optional): 
-                Search bounds either calculated in advance or at runtime. 
+            bounds (Union[ 
+                    Tuple[np.dtype, np.dtype], 
+                    List[Tuple[np.dtype, np.dtype]],
+                    Callable[[np.array], Union[
+                        Tuple[np.dtype, np.dtype], 
+                        List[Tuple[np.dtype, np.dtype]]]]
+                ], optional): 
+                Search bounds either calculated in advance or at runtime via a callable using the X features. 
                 Defaults to (-np.inf, np.inf).
             loss (str, optional): [description]. Defaults to 'linear'.
             beta_guess (Optional[Any], optional): [description]. Defaults to None.
@@ -64,7 +70,7 @@ class CurvefitEstimator(BaseEstimator, RegressorMixin):
         X: np.array, 
         y: np.array=None, 
         sigma: Optional[np.array]=None, 
-        absolute_sigma: bool=True, 
+        absolute_sigma: bool=False, 
         squeeze_X: bool=False) -> 'CurvefitEstimator':
         """ Fit X features to target y. 
 
@@ -86,6 +92,11 @@ class CurvefitEstimator(BaseEstimator, RegressorMixin):
 
         if squeeze_X:
             X = X.squeeze()
+        
+        if callable(self.bounds):  # allow bounds to be a callable
+            bounds = self.bounds(X)
+        else:
+            bounds = self.bounds
 
         popt, pcov = optimize.curve_fit(f=self.model_func, 
             xdata=X, 
@@ -95,7 +106,7 @@ class CurvefitEstimator(BaseEstimator, RegressorMixin):
             sigma=sigma,
             absolute_sigma=absolute_sigma,
             loss=self.loss,
-            bounds=self.bounds,
+            bounds=bounds,
             jac=self.jac,
             **self.lsq_kwargs
             )
