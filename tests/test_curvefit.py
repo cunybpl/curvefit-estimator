@@ -2,11 +2,13 @@ import pytest
 import numpy as np
 
 from sklearn.datasets import load_iris
-from sklearn.utils.testing import assert_array_equal
-from sklearn.utils.testing import assert_allclose
+from sklearn.utils._testing import assert_array_equal
+from sklearn.utils._testing import assert_allclose
 
 from curvefit import CurvefitEstimator
+import unittest
 
+tc = unittest.TestCase()
 
 
 def test_curvefit_estimator_against_scipy_example():
@@ -30,6 +32,9 @@ def test_curvefit_estimator_against_scipy_example():
         0.47450642597289794
     ]
     assert list(expected) == list(estimator.popt_)
+
+    predicted_res = estimator.predict(xdata)
+    print(predicted_res)
     
 
 def test_curvefit_estimator_with_pipeline_api():
