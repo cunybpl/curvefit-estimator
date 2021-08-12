@@ -1,6 +1,7 @@
 from typing import Callable, Tuple, Any, List, Optional, Union
 
 import numpy as np
+import functools
 
 from scipy import optimize
 from sklearn.base import BaseEstimator, RegressorMixin
