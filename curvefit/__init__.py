@@ -1,4 +1,5 @@
-from .curvefit import CurvefitEstimator
-from ._version import __version__
+from .estimator import CurvefitEstimator
+from ._version import VERSION 
 
-__all__ = ['CurvefitEstimator', '__version__']
+__version__ = VERSION
+__all__ = ['CurvefitEstimator',]
