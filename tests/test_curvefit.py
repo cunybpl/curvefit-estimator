@@ -31,11 +31,11 @@ def test_curvefit_estimator_against_scipy_example():
     estimator = CurvefitEstimator(model_func=func)
     estimator.fit(xdata.reshape(-1, 1), ydata)
     expected = [
-        2.5542373783987986, 
-        1.3519104048478578, 
-        0.47450642597289794
+        2.5542, 
+        1.3519, 
+        0.4745
     ]
-    assert list(expected) == list(estimator.popt_)
+    assert list(expected) == [round(p, 4) for p in list(estimator.popt_)]
     estimator.predict(xdata.reshape(-1,1))    # more or less just a smoke test
     
 
