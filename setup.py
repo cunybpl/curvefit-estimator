@@ -7,7 +7,7 @@ import os
 from setuptools import find_packages, setup
 
 # get VERSION from _version.py
-ver_file = os.path.join('curvefit', '_version.py')
+ver_file = os.path.join('curvefit_estimator', '_version.py')
 with open(ver_file) as f:
     version={}
     exec(f.read(), version)
