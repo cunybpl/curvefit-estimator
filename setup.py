@@ -12,7 +12,7 @@ with open(ver_file) as f:
     version={}
     exec(f.read(), version)
 
-DISTNAME = 'curvefit'
+DISTNAME = 'curvefit-estimator'
 DESCRIPTION = 'A sckit-learn wrapper around scipy.optimize.curve_fit'
 with codecs.open('README.md', encoding='utf-8') as f:
     LONG_DESCRIPTION = f.read()
