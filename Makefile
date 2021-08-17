@@ -22,16 +22,3 @@ clean-test:
 test: clean-test
 	pytest --cov=curvefit --cov=curvefit_estimator --cov-report=term-missing tests/ -v -s
 
-
-install-dev: clean
-	pip install -U -r requirements.dev.txt
-	pip install -e . 
-
-
-install-dev-force-reinstall: clean 
-	pip install -U -r requirements.dev.txt
-	pip install -e . --force-reinstall
-
-
-install: clean 
-	pip install . 
