@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "curvefit-estimator"
+version = "0.2.0"
+description = "sklearn wrapper around scipy.optimize.curve_fit"
+authors = ["cunybpl <dev@cunybpl.org>"]
+license = "BSD-3"
+
+[tool.poetry.dependencies]
+python = ">=3.7,<3.10"
+scikit-learn = ">=0.24"
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.2.4"
+pytest-cov = "^2.12.1"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

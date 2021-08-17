@@ -1,12 +1,5 @@
-import pytest
 import numpy as np
-
-from sklearn.datasets import load_iris
-from sklearn.utils._testing import assert_array_equal
-from sklearn.utils._testing import assert_allclose
-
 from curvefit_estimator import CurvefitEstimator
-import unittest
 
 from sklearn import pipeline
 from sklearn.preprocessing import StandardScaler
