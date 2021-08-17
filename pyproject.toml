@@ -6,7 +6,7 @@ authors = ["cunybpl <dev@cunybpl.org>"]
 license = "BSD-3"
 
 [tool.poetry.dependencies]
-python = "~3.7"
+python = ">=3.7,<3.10"
 scikit-learn = ">=0.24"
 
 [tool.poetry.dev-dependencies]
