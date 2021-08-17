@@ -20,5 +20,5 @@ clean-test:
 
 
 test: clean-test
-	pytest --cov=curvefit --cov=curvefit_estimator --cov-report=term-missing tests/ -v -s
+	pytest --cov=curvefit_estimator --cov-report=term-missing tests/ -v -s
 
