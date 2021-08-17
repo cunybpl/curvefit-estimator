@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "curvefit-estimator"
-version = "0.1.0"
+version = "0.2.0"
 description = "sklearn wrapper around scipy.optimize.curve_fit"
 authors = ["cunybpl <dev@cunybpl.org>"]
 license = "BSD-3"
