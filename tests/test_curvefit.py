@@ -97,3 +97,21 @@ def test_callable_bounds():
 
     est = CurvefitEstimator(model_func=f, bounds=bounds)
     est.fit(xdata.reshape(-1,1), ydata)
+
+
+def test_X_and_y_are_accessible_on_estimator_after_fit(): 
+
+    def f(x, a, b, c): 
+        return (a * np.exp(-b * x) + c).squeeze() 
+
+    xdata = np.linspace(0, 4, 50)
+    y = f(xdata, 2.5, 1.3, 0.5)
+    y_noise = 0.2 * np.random.normal(size=xdata.size)
+    ydata = y + y_noise
+
+    est = CurvefitEstimator(model_func=f) 
+    est.fit(xdata.reshape(-1,1), ydata) 
+    assert hasattr(est, 'X_') 
+    assert hasattr(est, 'y_')
+    assert est.X_.all() == xdata.all() 
+    assert est.y_.all() == ydata.all()

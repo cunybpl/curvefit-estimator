@@ -79,6 +79,9 @@ class CurvefitEstimator(BaseEstimator, RegressorMixin):
         else:
             bounds = self.bounds
 
+        self.X_ = X 
+        self.y_ = y
+
         popt, pcov = optimize.curve_fit(f=self.model_func, 
             xdata=X, 
             ydata=y, 
